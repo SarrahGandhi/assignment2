@@ -1,70 +1,47 @@
-<?php
-
-include( 'admin/includes/database.php' );
-include( 'admin/includes/config.php' );
-include( 'admin/includes/functions.php' );
-
-?>
 <!doctype html>
 <html>
+
 <head>
-  
+
   <meta charset="UTF-8">
-  <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-  
-  <title>Website Admin</title>
-  
-  <link href="styles.css" type="text/css" rel="stylesheet">
-  
-  <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipes</title>
+  <link rel="stylesheet" href="includes/styles.css" />
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
+  <?php include('includes/nav.php'); ?>
 
   <h1>Welcome to My Website!</h1>
   <p>This is the website frontend!</p>
 
-  <?php
+  <div class="recipecards">
+    <?php include('includes/database.php');
+    $query = 'SELECT *
+    FROM Recipes';
 
-  $query = 'SELECT *
-    FROM projects
-    ORDER BY date DESC';
-  $result = mysqli_query( $connect, $query );
+    $result = mysqli_query($connect, $query);
 
-  ?>
 
-  <p>There are <?php echo mysqli_num_rows($result); ?> projects in the database!</p>
 
-  <hr>
+    foreach ($result as $recipe) {
+      echo '<div class="card">
+            <h5 class="card-title">' . $recipe['RecipeName'] . '</h5>
+            <span class="card-author">Preptime:' . $recipe['PrepTime'] . '</span>
+            <p class="card-description">Servings: ' . $recipe['Servings'] . '</p>
+            <form action="recipe.php" method="get">
+            <input type="hidden" name="RecipeID" value="' . $recipe['RecipeID'] . '">
+            <button type="submit" class="btn btn-primary">Details</button>
+            </form>
+        </div>';
+    }
 
-  <?php while($record = mysqli_fetch_assoc($result)): ?>
 
-    <div>
 
-      <h2><?php echo $record['title']; ?></h2>
-      <?php echo $record['content']; ?>
-
-      <?php if($record['photo']): ?>
-
-        <p>The image can be inserted using a base64 image:</p>
-
-        <img src="<?php echo $record['photo']; ?>">
-
-        <p>Or by streaming the image through the image.php file:</p>
-
-        <img src="admin/image.php?type=project&id=<?php echo $record['id']; ?>&width=100&height=100">
-
-      <?php else: ?>
-
-        <p>This record does not have an image!</p>
-
-      <?php endif; ?>
-
-    </div>
-
-    <hr>
-
-  <?php endwhile; ?>
-
+    ?>
+  </div>
 </body>
+
 </html>
