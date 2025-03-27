@@ -22,12 +22,14 @@
     $query = 'SELECT *
     FROM Recipes';
 
+
     $result = mysqli_query($connect, $query);
 
 
 
     foreach ($result as $recipe) {
       echo '<div class="card">
+      <img src="' . $recipe['Photo'] . '">
             <h5 class="card-title">' . $recipe['RecipeName'] . '</h5>
             <span class="card-author">Preptime:' . $recipe['PrepTime'] . '</span>
             <p class="card-description">Servings: ' . $recipe['Servings'] . '</p>

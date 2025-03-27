@@ -1,6 +1,6 @@
 <?php
 
-function curl_get_contents( $url )
+function curl_get_contents($url)
 {
   $ch = curl_init($url);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -12,48 +12,46 @@ function curl_get_contents( $url )
   return $data;
 }
 
-function pre( $data )
+function pre($data)
 {
-  
+
   echo '<pre>';
-  print_r( $data );
+  print_r($data);
   echo '</pre>';
-  
+
 }
 
 function secure()
 {
-  
-  if( !isset( $_SESSION['id'] ) )
-  {
-    
-    header( 'Location: /' );
+
+  if (!isset($_SESSION['id'])) {
+
+    header('Location: /');
     die();
-    
+
   }
-  
+
 }
 
-function set_message( $message )
+function set_message($message)
 {
-  
+
   $_SESSION['message'] = $message;
-  
+
 }
 
 function get_message()
 {
-  
-  if( isset( $_SESSION['message'] ) )
-  {
-    
+
+  if (isset($_SESSION['message'])) {
+
     echo '<p style="padding: 0 1%;" class="error">
         <i class="fas fa-exclamation-circle"></i> 
-        '.$_SESSION['message'].'
+        ' . $_SESSION['message'] . '
       </p>
       <hr>';
-    unset( $_SESSION['message'] );
-    
+    unset($_SESSION['message']);
+
   }
-  
+
 }
