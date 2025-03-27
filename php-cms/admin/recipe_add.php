@@ -1,9 +1,8 @@
 <?php
 include('includes/database.php');
-include('includes/config.php');
-include('includes/functions.php');
-secure();
-$recipes = $connect->query("SELECT * FROM Recipes");
+
+$query = 'SELECT * FROM Recipes INNER JOIN Ingredients ON Recipes.RecipeID = Ingredients.RecipeID';
+$result = mysqli_query($connect, $query);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $RecipeName = $_POST["RecipeName"];
   $Instructions = $_POST["Instructions"];
@@ -25,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,10 +40,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <?php include("includes/nav.php");
   ?>
   <?php include("includes/database.php");
-  $query = 'SELECT * FROM Recipes';
-  $recipes = mysqli_query($connect, $query);
-
+  $query = "SELECT * FROM Recipes";
+  $result = mysqli_query($connect, $query);
   ?>
+</body>
+<div>
+
+  <h2>Add Recipe</h2>
   <div class="container-fluid">
     <div class="container">
       <div class="row">
@@ -54,8 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <input type="text" name="RecipeName" id="RecipeName" required>
             </div>
             <div class="mb-3">
-              <label for="RecipeInstructions" class="form-label">Recipe Instructions</label>
-              <input type="text" name="RecipeInstructions" id="RecipeInstructions" required>
+              <label for="Instructions" class="form-label">Recipe Instructions</label>
+              <input type="text" name="Instructions" id="Instructions" required>
             </div>
             <div class="mb-3">
               <label for="Servings" class="form-label">Servings</label>
@@ -110,6 +113,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </div>
   </div>
-</body>
+  </body>
 
 </html>
