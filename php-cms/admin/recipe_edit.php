@@ -1,128 +1,61 @@
-<?php
-
-include('includes/database.php');
-
-
-
-if (!isset($_GET['RecipeID'])) {
-
-  header('Location: projects.php');
-  die();
-
-}
-
-
-if (isset($_POST['title'])) {
-
-  if ($_POST['title'] and $_POST['content']) {
-
-    $query = 'UPDATE projects SET
-      title = "' . mysqli_real_escape_string($connect, $_POST['title']) . '",
-      content = "' . mysqli_real_escape_string($connect, $_POST['content']) . '",
-      date = "' . mysqli_real_escape_string($connect, $_POST['date']) . '",
-      type = "' . mysqli_real_escape_string($connect, $_POST['type']) . '",
-      url = "' . mysqli_real_escape_string($connect, $_POST['url']) . '"
-      WHERE id = ' . $_GET['id'] . '
-      LIMIT 1';
-    mysqli_query($connect, $query);
-
-    set_message('Project has been updated');
-
-  }
-
-  header('Location: projects.php');
-  die();
-
-}
-
-
-if (isset($_GET['id'])) {
-
-  $query = 'SELECT *
-    FROM projects
-    WHERE id = ' . $_GET['id'] . '
-    LIMIT 1';
+<?php include('includes/database.php');
+if ($SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["RecipeID"])) {
+  $RecipeID = $_GET["RecipeID"];
+  $query = "SELECT * FROM Recipes INNER JOIN Ingredients WHERE Recipes.RecipeID = Ingredients.RecipeID";
   $result = mysqli_query($connect, $query);
-
-  if (!mysqli_num_rows($result)) {
-
-    header('Location: projects.php');
-    die();
-
+  if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+  } else {
+    die("No recipe found.");
   }
-
-  $record = mysqli_fetch_assoc($result);
-
 }
-
-include('includes/header.php');
-
-?>
-
-<h2>Edit Project</h2>
-
-<form method="post">
-
-  <label for="title">Title:</label>
-  <input type="text" name="title" id="title" value="<?php echo htmlentities($record['title']); ?>">
-
-  <br>
-
-  <label for="content">Content:</label>
-  <textarea type="text" name="content" id="content" rows="5"><?php echo htmlentities($record['content']); ?></textarea>
-
-  <script>
-
-    ClassicEditor
-      .create(document.querySelector('#content'))
-      .then(editor => {
-        console.log(editor);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-  </script>
-
-  <br>
-
-  <label for="url">URL:</label>
-  <input type="text" name="url" id="url" value="<?php echo htmlentities($record['url']); ?>">
-
-  <br>
-
-  <label for="date">Date:</label>
-  <input type="date" name="date" id="date" value="<?php echo htmlentities($record['date']); ?>">
-
-  <br>
-
-  <label for="type">Type:</label>
-  <?php
-
-  $values = array('Website', 'Graphic Design');
-
-  echo '<select name="type" id="type">';
-  foreach ($values as $key => $value) {
-    echo '<option value="' . $value . '"';
-    if ($value == $record['type'])
-      echo ' selected="selected"';
-    echo '>' . $value . '</option>';
+if ($SERVER["REQUEST_METHOD"] == "POST") {
+  $RecipeID = $_POST["RecipeID"];
+  $RecipeName = $_POST["RecipeName"];
+  $Instructions = $_POST["Instructions"];
+  $Servings = $_POST["Servings"];
+  $PrepTime = $_POST["PrepTime"];
+  $IngredientName = $_POST["IngredientsName"];
+  $Quantity = $_POST["Quantity"];
+  $query = "UPDATE Recipes SET 
+  RecipeName='$RecipeName',
+  Instructions='$Instructions',
+  Servings = '$Servings',
+  PrepTime = '$PrepTime'
+  WHERE RecipeID = '$RecipeID'";
+  $result = mysqli_query($connect, $query);
+  if ($result) {
+    $queryIng = "UPDATE Ingredients SET
+IngredientName = '$IngredientsName',
+  Quantity = '$Quantity'
+  WHERE RecipeID = '$RecipeID'";
+    $resultIng = mysqli_query($connect, $queryIng);
+    if ($resultIng) {
+      header("Location: index.php");
+      exit();
+    } else {
+      echo "Failed to update Ingredients";
+    }
+  } else {
+    echo "Failed to update Recipe";
   }
-  echo '</select>';
-
-  ?>
-
-  <br>
-
-  <input type="submit" value="Edit Project">
-
-</form>
-
-<p><a href="projects.php"><i class="fas fa-arrow-circle-left"></i> Return to Project List</a></p>
-
-
-<?php
-
-include('includes/footer.php');
-
+}
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Attraction</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+  <?php include("includes/nav.php"); ?>
+
+</body>
+
+</html>

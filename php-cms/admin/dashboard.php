@@ -1,19 +1,19 @@
 <?php
 
-include( 'includes/database.php' );
-include( 'includes/config.php' );
-include( 'includes/functions.php' );
+include('includes/database.php');
+include('includes/config.php');
+include('includes/functions.php');
 
 secure();
 
-include( 'includes/header.php' );
+include('includes/header.php');
 
 ?>
 
 <ul id="dashboard">
   <li>
-    <a href="projects.php">
-      Manage Projects
+    <a href="recipes.php">
+      Manage Recipes
     </a>
   </li>
   <li>
@@ -30,6 +30,6 @@ include( 'includes/header.php' );
 
 <?php
 
-include( 'includes/footer.php' );
+include('includes/footer.php');
 
 ?>
