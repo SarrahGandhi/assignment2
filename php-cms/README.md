@@ -1,26 +1,35 @@
-# A Basic Vanilla PHP CMS
+# 🍲 Recipe Management System
 
-This repository is a simple PHP CMS meant to be used as a starting point. The code consists of a simple login process, a dashboard, a place to view/add/edit/delete users, and a place to view/add/edit/delete projects. In an effort to keep the PHP code focused and basic, only the absolute basics have been included. The whole CMS only consists of HTML, PHP, and SQL.
+This project is a **Recipe Management System** built with PHP and MySQL. It allows users to add, view, update, and delete recipes, including uploading images to enhance the user experience. Recipes are categorized and stored in the database with ingredient details.
 
-A few notes regarding the CMS:
+---
 
-- There is no form validation
-- Security is very basic
-- Image uploading is done through a separate page using a basic servers-side script
-- Images are stored in the database as a base64 string
-- Image resizing is done through [WideImage](http://wideimage.sourceforge.net/) (you'll need to add this to the includes folder)
+## 📚 Features
 
-> Full tutorial URL:  
-> https://codeadam.ca/learning/php-cms.html
+✅ Add new recipes with:
 
-***
+- Recipe Name
+- Ingredients
+- Instructions
+- Recipe Category
+- Image upload
 
-## Repo Resources
+✅ View all recipes in a dynamic list.
 
-* [Visual Studio Code](https://code.visualstudio.com/) or [Brackets](http://brackets.io/) (or any code editor)
-* [Filezilla](https://filezilla-project.org/) (or any FTP program)
+✅ Update or delete existing recipes.
 
-<br>
-<a href="https://codeadam.ca">
-<img src="https://cdn.codeadam.ca/images@1.0.0/codeadam-logo-coloured-horizontal.png" width="200">
-</a>
+✅ Upload recipe images to the `uploads/` directory and store the image path in the database.
+
+✅ Category-based filtering to browse recipes easily.
+
+✅ Secure login with session handling (if applicable).
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/SarrahGandhi/php-cms-recipes.git
+```
