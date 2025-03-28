@@ -40,7 +40,7 @@
   while ($recipe = mysqli_fetch_assoc($result)) {
     echo '<div class="col-12 col-md-4 mb-4">  <!-- col-md-4 to show 3 items in a row on medium screens and up -->
             <div class="card h-100 shadow-sm">
-                <img src="' . $recipe['Photo'] . '" class="card-img-top" alt="Recipe Image" style="height: 200px; object-fit: cover;">
+                <!-- <img src="' . $recipe['Photo'] . '" class="card-img-top" alt="Recipe Image" style="height: 200px; object-fit: cover;"> -->
                 <div class="card-body">
                     <h5 class="card-title">' . $recipe['RecipeName'] . '</h5>
                     <p class="card-text"><strong>Prep Time:</strong> ' . $recipe['PrepTime'] . ' mins</p>
