@@ -45,7 +45,7 @@
     <?php echo get_message(); ?>
 
     <!-- Page content goes here -->
-    <h2>Welcome to the Admin Panel</h2>
+    <h2 class="text-center">Welcome to the Admin Panel</h2>
     <!-- Add additional content here -->
   </div>
 
