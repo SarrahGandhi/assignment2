@@ -11,14 +11,22 @@
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
             <ul class="navbar-nav text-center">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php">Home</a>
+                    <a class="nav-link" href="../index.php">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="admin/recipe_add.php">Add Recipe</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="admin/index.php">Login</a>
                 </li>
+                <?php if (isset($_SESSION['id'])): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.php">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.php">Logout</a>
+                    </li>
+                <?php endif; ?>
+
+
             </ul>
         </div>
     </div>
