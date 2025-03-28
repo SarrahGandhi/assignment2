@@ -39,28 +39,49 @@ include('includes/header.php');
 
 ?>
 
-<div style="max-width: 400px; margin:auto">
+<!-- Google Font for Poppins -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <form method="post">
+<!-- Custom Style for Poppins Font -->
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+  .card-header {
+    font-weight: 600;
+  }
+  .form-label {
+    font-weight: 400;
+  }
+</style>
 
-    <label for="email">Email:</label>
-    <input type="text" name="email" id="email">
-
-    <br>
-
-    <label for="password">Password:</label>
-    <input type="password" name="password" id="password">
-
-    <br>
-
-    <input type="submit" value="Login">
-
-  </form>
-
-</div>
-
-<?php
-
-include('includes/footer.php');
-
-?>
+<!-- Bootstrap Styling for Login Form -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white text-center">
+          <h4>Login</h4>
+        </div>
+        <div class="card-body">
+          
+          <!-- Error Message Display -->
+          <?php if (isset($_SESSION['message'])): ?>
+            <div class="alert alert-danger text-center">
+              <?php echo $_SESSION['message']; unset($_SESSION['message']); ?>
+            </div>
+          <?php endif; ?>
+          
+          <!-- Login Form -->
+          <form method="post">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email:</label>
+              <input type="text" name="email" id="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password:</label>
+              <input type="password" name="password" id="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+          </form>
+        </div

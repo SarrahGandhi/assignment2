@@ -26,14 +26,19 @@
           <li class="nav-item">
             <a class="nav-link" href="recipes.php">Recipe Page</a>
           </li>
-          <?php if (isset($_SESSION['id'])): ?>
-            <li class="nav-item">
-              <a class="nav-link" href="dashboard.php">Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="logout.php">Logout</a>
-            </li>
-          <?php endif; ?>
+            <!-- Check if the user is logged in -->
+            <?php if (isset($_SESSION['id'])): ?>
+              <li class="nav-item">
+                <a class="nav-link" href="dashboard.php">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="logout.php">Logout</a>
+              </li>
+            <?php else: ?>
+              <li class="nav-item">
+                <a class="nav-link" href="login.php">Login</a>
+              </li>
+            <?php endif; ?>
         </ul>
       </div>
     </div>
