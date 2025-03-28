@@ -1,15 +1,15 @@
 <?php
 include('includes/database.php');
+include('includes/config.php'); // Add this to have access to session functions
+include('includes/functions.php'); // Add this if needed for secure() function
 
-$query = 'SELECT * FROM Recipes INNER JOIN Ingredients ON Recipes.RecipeID = Ingredients.RecipeID';
-$result = mysqli_query($connect, $query);
+// secure(); // Uncomment if you want to check authentication
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $RecipeName = $_POST["RecipeName"];
   $Instructions = $_POST["Instructions"];
   $PrepTime = $_POST["PrepTime"];
   $Servings = $_POST["Servings"];
-  $RecipeID = $_POST["RecipeID"];
   $imagePath = "";
 
   if (!empty($_FILES["image"]["name"])) {
@@ -22,11 +22,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $result = mysqli_query($connect, $query);
 
   if ($result) {
-    echo "<div class='alert alert-success'>Recipe Added Successfully</div>";
+    // Get the ID of the newly inserted recipe
+    $recipeID = mysqli_insert_id($connect);
+    
+    // Process the ingredients
+    if (isset($_POST['ingredient']) && isset($_POST['quantity'])) {
+      for ($i = 0; $i < count($_POST['ingredient']); $i++) {
+        $ingredient = $_POST['ingredient'][$i];
+        $quantity = $_POST['quantity'][$i];
+        
+        if (!empty($ingredient) && !empty($quantity)) {
+          $ingredientQuery = "INSERT INTO Ingredients (RecipeID, IngredientName, Quantity) 
+                              VALUES ('$recipeID', '$ingredient', '$quantity')";
+          mysqli_query($connect, $ingredientQuery);
+        }
+      }
+    }
+    
+    // Set success message in session
+    $_SESSION['message'] = "Recipe added successfully!";
+    $_SESSION['message_type'] = "success";
+    
+    // Redirect to recipes.php
+    header('Location: recipes.php');
+    exit(); // Make sure to exit after redirect
   } else {
-    echo "<div class='alert alert-danger'>Error: " . $connect->error . "</div>";
+    // Set error message in session
+    $_SESSION['message'] = "Error adding recipe: " . mysqli_error($connect);
+    $_SESSION['message_type'] = "danger";
+    
+    // Still redirect, but with error message
+    header('Location: recipes.php');
+    die();
   }
 }
+
+// The rest of your HTML code for the form...
 ?>
 
 <!DOCTYPE html>

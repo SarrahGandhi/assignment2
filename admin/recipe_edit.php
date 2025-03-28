@@ -110,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <h1 class="mb-4">Edit Recipe</h1>
 
       <!-- Form to edit recipe -->
-      <form method="post" action="edit_recipe.php" enctype="multipart/form-data">
+      <form method="post" action="recipe_edit.php" enctype="multipart/form-data">
         <input type="hidden" name="RecipeID" value="<?php echo $recipe['RecipeID']; ?>">
         <input type="hidden" name="existing_photo" value="<?php echo $recipe['Photo']; ?>">
 
@@ -183,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="submit" class="btn btn-success mt-3">Update Recipe</button>
 
         <!-- Cancel Button -->
-        <a href="index.php" class="btn btn-secondary mt-3">Cancel</a>
+        <a href="recipes.php" class="btn btn-secondary mt-3">Cancel</a>
       </form>
     </div>
   </div>
