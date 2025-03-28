@@ -12,13 +12,13 @@
 
 <body>
     <header>
-        <?php include("includes/nav.php"); ?>
+        <?php include("admin/includes/nav.php"); ?>
     </header>
 
     <main class="container mt-4">
         <?php
         $RecipeID = $_GET['RecipeID'];
-        include('includes/database.php');
+        include('admin/includes/database.php');
 
         // SQL query to fetch recipe details and its ingredients
         $query = "SELECT Recipes.RecipeName, Recipes.RecipeID, Recipes.PrepTime, Recipes.Instructions, Recipes.Servings,

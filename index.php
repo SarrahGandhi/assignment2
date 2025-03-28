@@ -33,7 +33,7 @@
             <h5 class="card-title">' . $recipe['RecipeName'] . '</h5>
             <span class="card-author">Preptime:' . $recipe['PrepTime'] . '</span>
             <p class="card-description">Servings: ' . $recipe['Servings'] . '</p>
-            <form action="recipe.php" method="get">
+            <form action="details.php" method="get">
             <input type="hidden" name="RecipeID" value="' . $recipe['RecipeID'] . '">
             <button type="submit" class="btn btn-primary">Details</button>
             </form>
