@@ -6,6 +6,8 @@ include('includes/functions.php');
 
 secure();
 
+
+
 // Pagination setup
 $recipes_per_page = 15;
 $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
@@ -24,7 +26,27 @@ $result = mysqli_query($connect, $query);
 include('includes/header.php');
 ?>
 
+<?php
+// Check for flash messages
+$message = '';
+$messageType = '';
+if (isset($_SESSION['message'])) {
+    $message = $_SESSION['message'];
+    $messageType = $_SESSION['message_type'];
+    
+    // Clear the message after displaying
+    unset($_SESSION['message']);
+    unset($_SESSION['message_type']);
+}
+?>
+
 <div class="container">
+<?php if (!empty($message)): ?>
+  <div class="alert alert-<?php echo $messageType; ?> alert-dismissible fade show" role="alert">
+    <span class="text-success fw-bold"><?php echo $message; ?></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<?php endif; ?>
   <!-- Header Section -->
   <div class="mb-3">
     <h2 class="fw-bold text-dark">Manage Recipes</h2>

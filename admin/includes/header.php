@@ -23,9 +23,6 @@
           <li class="nav-item">
             <a class="nav-link" href="../index.php">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="recipes.php">Recipe Page</a>
-          </li>
             <!-- Check if the user is logged in -->
             <?php if (isset($_SESSION['id'])): ?>
               <li class="nav-item">

@@ -9,15 +9,24 @@ secure();
 if (isset($_GET['RecipeID'])) {
     $RecipeID = mysqli_real_escape_string($connect, $_GET['RecipeID']);
 
-    // Delete recipe query
-    $query = "DELETE FROM recipes WHERE RecipeID = '$RecipeID' LIMIT 1";
-
-    if (mysqli_query($connect, $query)) {
-        set_message('Recipe has been deleted successfully.');
+    // Delete ingredients first (foreign key constraint)
+    $deleteIngredientsQuery = "DELETE FROM Ingredients WHERE RecipeID = '$RecipeID'";
+    mysqli_query($connect, $deleteIngredientsQuery);
+    
+    // Then delete the recipe
+    $deleteRecipeQuery = "DELETE FROM Recipes WHERE RecipeID = '$RecipeID'";
+    $result = mysqli_query($connect, $deleteRecipeQuery);
+    
+    if ($result) {
+        // Set a session variable with success message
+        $_SESSION['message'] = "Recipe deleted successfully!";
+        $_SESSION['message_type'] = "success";
     } else {
-        set_message('Failed to delete the recipe: ' . mysqli_error($connect));
+        $_SESSION['message'] = "Error deleting recipe: " . mysqli_error($connect);
+        $_SESSION['message_type'] = "danger";
     }
 }
+
 
 // Redirect to the recipes page
 header('Location: recipes.php');
