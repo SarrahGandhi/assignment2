@@ -6,62 +6,38 @@ include('includes/functions.php');
 
 secure();
 
-if (!isset($_GET['id'])) {
-
-  header('Location: users.php');
-  die();
-
-}
-
 if (isset($_POST['first'])) {
 
-  if ($_POST['first'] and $_POST['last'] and $_POST['email']) {
+  if ($_POST['first'] and $_POST['last'] and $_POST['email'] and $_POST['password']) {
 
-    $query = 'UPDATE users SET
-      first = "' . mysqli_real_escape_string($connect, $_POST['first']) . '",
-      last = "' . mysqli_real_escape_string($connect, $_POST['last']) . '",
-      email = "' . mysqli_real_escape_string($connect, $_POST['email']) . '",
-      active = "' . $_POST['active'] . '"
-      WHERE id = ' . $_GET['id'] . '
-      LIMIT 1';
+    $query = 'INSERT INTO users (
+        first,
+        last,
+        email,
+        password,
+        active
+      ) VALUES (
+        "' . mysqli_real_escape_string($connect, $_POST['first']) . '",
+        "' . mysqli_real_escape_string($connect, $_POST['last']) . '",
+        "' . mysqli_real_escape_string($connect, $_POST['email']) . '",
+        "' . md5($_POST['password']) . '",
+        "' . $_POST['active'] . '"
+      )';
     mysqli_query($connect, $query);
 
-    if ($_POST['password']) {
-
-      $query = 'UPDATE users SET
-        password = "' . md5($_POST['password']) . '"
-        WHERE id = ' . $_GET['id'] . '
-        LIMIT 1';
-      mysqli_query($connect, $query);
-
-    }
-
-    set_message('User has been updated');
+    set_message('User has been added');
 
   }
+
+  /*
+  // Example of debugging a query
+  print_r($_POST);
+  print_r($query);
+  die();
+  */
 
   header('Location: users.php');
   die();
-
-}
-
-
-if (isset($_GET['id'])) {
-
-  $query = 'SELECT *
-    FROM users
-    WHERE id = ' . $_GET['id'] . '
-    LIMIT 1';
-  $result = mysqli_query($connect, $query);
-
-  if (!mysqli_num_rows($result)) {
-
-    header('Location: users.php');
-    die();
-
-  }
-
-  $record = mysqli_fetch_assoc($result);
 
 }
 
@@ -69,22 +45,22 @@ include('includes/header.php');
 
 ?>
 
-<h2>Edit User</h2>
+<h2>Add User</h2>
 
 <form method="post">
 
-  <label for="first">First:</label>
-  <input type="text" name="first" id="first" value="<?php echo htmlentities($record['first']); ?>">
+  <label for="first">First Name:</label>
+  <input type="text" name="first" id="first">
 
   <br>
 
-  <label for="last">Last:</label>
-  <input type="text" name="last" id="last" value="<?php echo htmlentities($record['last']); ?>">
+  <label for="last">Last Name:</label>
+  <input type="text" name="last" id="last">
 
   <br>
 
   <label for="email">Email:</label>
-  <input type="email" name="email" id="email" value="<?php echo htmlentities($record['email']); ?>">
+  <input type="email" name="email" id="email">
 
   <br>
 
@@ -101,8 +77,6 @@ include('includes/header.php');
   echo '<select name="active" id="active">';
   foreach ($values as $key => $value) {
     echo '<option value="' . $value . '"';
-    if ($value == $record['active'])
-      echo ' selected="selected"';
     echo '>' . $value . '</option>';
   }
   echo '</select>';
@@ -111,7 +85,7 @@ include('includes/header.php');
 
   <br>
 
-  <input type="submit" value="Edit User">
+  <input type="submit" value="Add User">
 
 </form>
 
