@@ -36,6 +36,7 @@
 
   // Display recipes in 3-column grid
   echo '<div class="container">';
+  echo '<h1 class="my-4 text-center">Amazing Recipes</h1>'; 
   echo '<div class="row">';
   while ($recipe = mysqli_fetch_assoc($result)) {
     echo '<div class="col-12 col-md-4 mb-4">  <!-- col-md-4 to show 3 items in a row on medium screens and up -->
