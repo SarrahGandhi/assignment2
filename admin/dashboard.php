@@ -1,3 +1,5 @@
+<?php include("admin/includes/nav.php"); ?>
+</header>
 <?php
 include('includes/database.php');
 include('includes/config.php');

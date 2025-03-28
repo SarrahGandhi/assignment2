@@ -43,12 +43,14 @@ include('includes/header.php');
             style="height: 200px; object-fit: cover;">
           <div class="card-body d-flex flex-column">
             <h5 class="card-title"><?php echo htmlentities($record['RecipeName']); ?></h5>
-            <p class="card-text"><strong>Instructions:</strong> <small><?php echo $record['Instructions']; ?></small></p>
+            <p class="card-text"><strong>Instructions:</strong> <small><?php echo $record['Instructions']; ?></small>
+            </p>
             <p class="card-text"><strong>Prep Time:</strong> <?php echo $record['PrepTime']; ?> mins</p>
             <p class="card-text"><strong>Servings:</strong> <?php echo $record['Servings']; ?></p>
 
             <div class="d-flex flex-column mt-auto">
-              <a href="recipes_edit.php?id=<?php echo $record['RecipeID']; ?>" class="btn btn-primary w-100 mb-2">Edit</a>
+              <a href="recipe_edit.php?RecipeID=<?php echo $record['RecipeID']; ?>"
+                class="btn btn-primary w-100 mb-2">Edit</a>
               <a href="recipes.php?delete=<?php echo $record['RecipeID']; ?>" class="btn btn-danger w-100 mb-2"
                 onclick="return confirm('Are you sure you want to delete this recipe?');">Delete</a>
               <a href="details.php?RecipeID=<?php echo $record['RecipeID']; ?>" class="btn btn-info w-100">Details</a>
@@ -82,7 +84,7 @@ include('includes/header.php');
 </div> <!-- End of pagination -->
 </div> <!-- End of container -->
 
-<p><a href="recipe_add.php" class="btn btn-success mt-4"><i class="fas fa-plus-square"></i> Add Recipe</a></p>
+
 
 <?php
 include('includes/footer.php');
