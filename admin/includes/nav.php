@@ -1,3 +1,7 @@
+<?php
+session_start(); // Start the session at the very top of the file
+?>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <!-- Toggle button on the right -->
@@ -15,26 +19,20 @@
                 </li>
 
 
-                 <!-- Check if the user is logged in and is an admin -->
-                 <?php if (isset($_SESSION['id']) && $_SESSION['role'] === 'admin'): ?>
+                 <!-- Check if the user is logged in (no need to check role if only logged-in state matters) -->
+                <?php if (isset($_SESSION['id'])): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php">Dashboard</a>
+                        <a class="nav-link" href="admin/dashboard.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="recipe_add.php">Add Recipe</a>
+                        <a class="nav-link" href="admin/logout.php">Logout</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Logout</a>
-                    </li>
-                <?php endif; ?>
-
-                <!-- For users not logged in, show Login button -->
-                <?php if (!isset($_SESSION['id'])): ?>
+                <?php else: ?>
+                    <!-- For users not logged in, show Login button -->
                     <li class="nav-item">
                         <a class="nav-link" href="admin/index.php">Login</a>
                     </li>
                 <?php endif; ?>
-
 
             </ul>
         </div>

@@ -24,7 +24,7 @@ include('includes/header.php');
 
 $query = 'SELECT *
   FROM users 
-  ' . (($_SESSION['id'] != 1 and $_SESSION['id'] != 4) ? 'WHERE id = ' . $_SESSION['id'] . ' ' : '') . '
+  ' . (($_SESSION['id'] != 1) ? 'WHERE id = ' . $_SESSION['id'] . ' ' : '') . '
   ORDER BY last,first';
 $result = mysqli_query($connect, $query);
 
