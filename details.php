@@ -22,7 +22,7 @@
 
         // SQL query to fetch recipe details and its ingredients
         $query = "SELECT Recipes.RecipeName, Recipes.RecipeID, Recipes.PrepTime, Recipes.Instructions, Recipes.Servings,
-                  Ingredients.IngredientName, Ingredients.Quantity
+                  Ingredients.IngredientName, Ingredients.Quantity, Recipes.Photo
                   FROM Recipes
                   INNER JOIN Ingredients ON Recipes.RecipeID = Ingredients.RecipeID
                   WHERE Recipes.RecipeID = '$RecipeID'";
@@ -35,7 +35,8 @@
         } else {
             echo '<h1 class="display-4 mb-4">' . $recipe['RecipeName'] . '</h1>';
 
-            echo '<img src="' . $recipe['Photo'] . '" alt="Recipe Image">';
+            echo '<img src="' . $recipe['Photo'] . '" alt="Recipe Image" style="height: 200px; object-fit: cover;">';
+
 
 
             echo '<div class="list-group mb-4">';

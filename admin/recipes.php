@@ -21,14 +21,6 @@ $total_recipes = $total_row[0];
 $query = 'SELECT * FROM recipes LIMIT ' . $recipes_per_page . ' OFFSET ' . $offset;
 $result = mysqli_query($connect, $query);
 
-if (isset($_GET['delete'])) {
-  $query = 'DELETE FROM recipes WHERE RecipeID = ' . $_GET['delete'] . ' LIMIT 1';
-  mysqli_query($connect, $query);
-  set_message('Recipe has been deleted');
-  header('Location: recipes.php');
-  die();
-}
-
 include('includes/header.php');
 ?>
 
@@ -39,7 +31,7 @@ include('includes/header.php');
     <?php while ($record = mysqli_fetch_assoc($result)): ?>
       <div class="col-12 col-md-4 mb-4">
         <div class="card h-100 shadow-sm">
-          <img src="uploads/<?php echo $record['Photo']; ?>" class="card-img-top" alt="Recipe Image"
+          <img src="../<?php echo $record['Photo']; ?>" class="card-img-top" alt="Recipe Image"
             style="height: 200px; object-fit: cover;">
           <div class="card-body d-flex flex-column">
             <h5 class="card-title"><?php echo htmlentities($record['RecipeName']); ?></h5>
@@ -49,10 +41,17 @@ include('includes/header.php');
             <p class="card-text"><strong>Servings:</strong> <?php echo $record['Servings']; ?></p>
 
             <div class="d-flex flex-column mt-auto">
+              <!-- Edit Button -->
               <a href="recipe_edit.php?RecipeID=<?php echo $record['RecipeID']; ?>"
                 class="btn btn-primary w-100 mb-2">Edit</a>
-              <a href="recipes.php?delete=<?php echo $record['RecipeID']; ?>" class="btn btn-danger w-100 mb-2"
-                onclick="return confirm('Are you sure you want to delete this recipe?');">Delete</a>
+
+              <!-- Delete Button triggers modal -->
+              <button type="button" class="btn btn-danger w-100 mb-2" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                data-id="<?php echo $record['RecipeID']; ?>">
+                Delete
+              </button>
+
+              <!-- Details Button -->
               <a href="details.php?RecipeID=<?php echo $record['RecipeID']; ?>" class="btn btn-info w-100">Details</a>
             </div>
           </div>
@@ -82,9 +81,38 @@ include('includes/header.php');
   }
   ?>
 </div> <!-- End of pagination -->
-</div> <!-- End of container -->
 
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+        <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this recipe? This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <!-- Actual Delete Link -->
+        <a id="confirmDeleteBtn" href="#" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- JavaScript to handle modal logic -->
+<script>
+  // Pass RecipeID to the modal dynamically
+  var deleteModal = document.getElementById('deleteModal');
+  deleteModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+    var recipeId = button.getAttribute('data-id');
+    var deleteUrl = 'recipe_delete.php?RecipeID=' + recipeId;
+    document.getElementById('confirmDeleteBtn').setAttribute('href', deleteUrl);
+  });
+</script>
 
 <?php
 include('includes/footer.php');
