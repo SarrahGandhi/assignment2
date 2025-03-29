@@ -60,24 +60,26 @@
   // Pagination links
   $total_pages = ceil($total_recipes / $recipes_per_page); // Calculate the total number of pages
   echo '<div class="pagination mt-4 d-flex justify-content-center">';
+
   if ($page > 1) {
-    echo '<a href="?page=' . ($page - 1) . '" class="btn btn-secondary">Previous</a>';
+      echo '<a href="?page=' . ($page - 1) . '" class="btn btn-secondary mx-1">Previous</a>';
   }
 
   for ($i = 1; $i <= $total_pages; $i++) {
-    if ($i == $page) {
-      echo '<span class="btn btn-success">' . $i . '</span>';
-    } else {
-      echo '<a href="?page=' . $i . '" class="btn btn-secondary">' . $i . '</a>';
-    }
+      if ($i == $page) {
+          echo '<span class="btn btn-success mx-1">' . $i . '</span>';
+      } else {
+          echo '<a href="?page=' . $i . '" class="btn btn-secondary mx-1">' . $i . '</a>';
+      }
   }
 
   if ($page < $total_pages) {
-    echo '<a href="?page=' . ($page + 1) . '" class="btn btn-secondary">Next</a>';
+      echo '<a href="?page=' . ($page + 1) . '" class="btn btn-secondary mx-1">Next</a>';
   }
-  echo '</div>';
 
+  echo '</div>';
   ?>
+
 
 
   </div>
