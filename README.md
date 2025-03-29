@@ -11,7 +11,6 @@ This project is a **Recipe Management System** built with PHP and MySQL. It allo
 - Recipe Name
 - Ingredients
 - Instructions
-- Recipe Category
 - Image upload
 
 ✅ View all recipes in a dynamic list.
@@ -19,8 +18,6 @@ This project is a **Recipe Management System** built with PHP and MySQL. It allo
 ✅ Update or delete existing recipes.
 
 ✅ Upload recipe images to the `uploads/` directory and store the image path in the database.
-
-✅ Category-based filtering to browse recipes easily.
 
 ✅ Secure login with session handling (if applicable).
 
