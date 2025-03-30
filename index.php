@@ -5,7 +5,7 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recipes</title>
+  <title>Recipe Hub</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -45,7 +45,7 @@
 
   // Display recipes in 3-column grid
   echo '<div class="container">';
-  echo '<h1 class="my-4 text-center">Amazing Recipes</h1>'; 
+  echo '<h1 class="my-4 text-center">Recipe Hub</h1>'; 
   echo '<div class="row">';
   while ($recipe = mysqli_fetch_assoc($result)) {
     echo '<div class="col-12 col-md-4 mb-4">  <!-- col-md-4 to show 3 items in a row on medium screens and up -->
