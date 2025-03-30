@@ -54,7 +54,7 @@ secure();
                             echo '<h1 class="display-4 mb-4">' . htmlspecialchars($recipe['RecipeName']) . '</h1>';
 
                             if (!empty($recipe['Photo'])) {
-                                echo '<img src="../' . htmlspecialchars($recipe['Photo']) . '" alt="Recipe Image" class="img-fluid mb-4 rounded shadow-sm">';
+                                echo '<img src="../' . htmlspecialchars($recipe['Photo']) . '" alt="Recipe Image" class="img-fluid mb-4 d-block mx-auto rounded shadow-sm" style="width: 650px; height: auto; object-fit: cover;">';
                             }
 
                             echo '<div class="card mb-4 shadow-sm">';
