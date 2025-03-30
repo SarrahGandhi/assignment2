@@ -9,6 +9,7 @@ This project is a **Recipe Management System** built with PHP and MySQL. It allo
  User: View all recipes in a dynamic list.
 
  Admin: 
+ ---
  ✅ Add new recipes with:
 - Recipe Name
 - Ingredients
