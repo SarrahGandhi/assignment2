@@ -37,20 +37,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $PrepTime = mysqli_real_escape_string($connect, $_POST["PrepTime"]);
   $Servings = mysqli_real_escape_string($connect, $_POST["Servings"]);
 
-  // Handle image upload
+  // Handle image
+  $Photo = $_POST["existing_photo"]; // Default to existing photo
   if (!empty($_FILES["Photo"]["name"])) {
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($_FILES["Photo"]["name"]);
+    $target_dir = "../uploads/";
+    $file_name = uniqid() . "_" . basename($_FILES["Photo"]["name"]);
+    $target_file = $target_dir . $file_name;
+
+    if (!is_dir($target_dir)) {
+      mkdir($target_dir, 0755, true);
+    }
 
     if (move_uploaded_file($_FILES["Photo"]["tmp_name"], $target_file)) {
       $Photo = $target_file;
     } else {
-      echo "Error uploading image.";
+      $_SESSION['message'] = "Error uploading image.";
+      $_SESSION['message_type'] = "danger";
+      header("Location: index.php?error=upload");
       exit();
     }
-  } else {
-    $Photo = $_POST["existing_photo"];
-  }
+  } 
 
   // Update recipe details
   $query = "UPDATE Recipes 
@@ -92,11 +98,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       }
     }
 
-    // Redirect after successful update
-    header("Location: index.php?success=1");
+    $_SESSION['message'] = "Updated successfully!"; // Your requested message
+    $_SESSION['message_type'] = "success";
+    header("Location: recipes.php"); // Redirect to recipes.php
     exit();
   } else {
-    echo "Failed to update recipe: " . mysqli_error($connect);
+    $_SESSION['message'] = "Failed to update recipe: " . mysqli_error($connect);
+    $_SESSION['message_type'] = "danger";
+    header("Location: recipes.php"); // Redirect even on failure to show error
+    exit();
   }
 }
 
@@ -139,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="mb-3">
           <label for="Photo" class="form-label">Upload New Photo</label>
           <input type="file" name="Photo" id="Photo" class="form-control">
-          <small>Current Photo: <a href="../<?php echo $recipe['Photo']; ?>" target="_blank">View Photo</a></small>
+          <small>Current Photo: <a href="<?php echo $recipe['Photo']; ?>" target="_blank">View Photo</a></small>
         </div>
 
         <!-- Instructions -->

@@ -13,8 +13,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $imagePath = "";
 
   if (!empty($_FILES["image"]["name"])) {
-    $imagePath = 'uploads/' . $_FILES["image"]["name"];
-    move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath);
+    $targetDir = "../uploads/"; // Move up one level to root, then into uploads
+    $fileName = uniqid() . "_" . basename($_FILES["image"]["name"]);
+    $imagePath = $targetDir . $fileName;
+
+    if (!is_dir($targetDir)) {
+      mkdir($targetDir, 0755, true); // Create uploads folder in root if it doesn’t exist
+    }
+
+    if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
+      $_SESSION['message'] = "Error uploading image.";
+      $_SESSION['message_type'] = "danger";
+      header('Location: recipes.php');
+      exit();
+    }
   }
 
   $query = "INSERT INTO Recipes (RecipeName, Instructions, PrepTime, Servings, Photo) 
