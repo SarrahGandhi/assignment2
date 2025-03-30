@@ -37,12 +37,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $PrepTime = mysqli_real_escape_string($connect, $_POST["PrepTime"]);
   $Servings = mysqli_real_escape_string($connect, $_POST["Servings"]);
 
-  // Handle image
+  // Handle image upload
   $Photo = $_POST["existing_photo"]; // Default to existing photo
   if (!empty($_FILES["Photo"]["name"])) {
     $target_dir = "../uploads/";
     $file_name = uniqid() . "_" . basename($_FILES["Photo"]["name"]);
     $target_file = $target_dir . $file_name;
+
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+    // Check if the file is a valid image (you can add more validations if needed)
+    $check = getimagesize($_FILES["Photo"]["tmp_name"]);
+    if ($check === false) {
+      $_SESSION['message'] = "File is not an image.";
+      $_SESSION['message_type'] = "danger";
+      header("Location: index.php?error=upload");
+      exit();
+    }
+
+    // Check file size (limit to 5MB, for example)
+    if ($_FILES["Photo"]["size"] > 5000000) {
+      $_SESSION['message'] = "Sorry, your file is too large.";
+      $_SESSION['message_type'] = "danger";
+      header("Location: index.php?error=upload");
+      exit();
+    }
+
+    // Allow only certain file formats (JPG, JPEG, PNG, GIF)
+    if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
+      $_SESSION['message'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+      $_SESSION['message_type'] = "danger";
+      header("Location: index.php?error=upload");
+      exit();
+    }
 
     if (!is_dir($target_dir)) {
       mkdir($target_dir, 0755, true);
@@ -56,7 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       header("Location: index.php?error=upload");
       exit();
     }
-  } 
+  }
+
 
   // Update recipe details
   $query = "UPDATE recipes 

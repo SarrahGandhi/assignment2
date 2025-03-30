@@ -27,30 +27,72 @@
                   INNER JOIN ingredients ON recipes.recipeID = ingredients.recipeID
                   WHERE recipes.recipeID = '$RecipeID'";
 
-        $ingredientsdisplay = mysqli_query($connect, $query);
-        $recipe = mysqli_fetch_assoc($ingredientsdisplay);
+        $result = mysqli_query($connect, $query);
 
-        if (mysqli_num_rows($ingredientsdisplay) <= 0) {
-            echo '<div class="alert alert-warning" role="alert">No recipe found.</div>';
-        } else {
-            echo '<h1 class="display-4 mb-4">' . $recipe['RecipeName'] . '</h1>';
+        if ($result) {
+            $recipes = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-            echo '<img src="' . $recipe['Photo'] . '" alt="Recipe Image" style="height: 200px; object-fit: cover;">';
+            if (!empty($recipes)) {
+                $recipe = $recipes[0];
+
+                echo '<h1 class="display-4 mb-4">' . htmlspecialchars($recipe['RecipeName']) . '</h1>';
+
+
+                echo '<div class="card mb-4 shadow-sm">';
+                echo '<div class="card-header bg-light"><h5 class="mb-0">Ingredients</h5></div>';
+                echo '<ul class="list-group list-group-flush">';
+                foreach ($recipes as $ingredient) {
+                    if (!empty($ingredient['IngredientName'])) {
+                        echo '<li class="list-group-item">' .
+                            htmlspecialchars($ingredient['Quantity'] . ' ' . $ingredient['IngredientName']) .
+                            '</li>';
+                    }
+                }
+                echo '</ul>';
+                echo '</div>';
+
+                echo '<div class="row mb-4">';
+                echo '<div class="col-md-6">';
+                echo '<div class="card shadow-sm">';
+                echo '<div class="card-body text-center">';
+                echo '<p class="text-muted mb-1">Servings</p>';
+                echo '<h3 class="text-success">' . htmlspecialchars($recipe['Servings']) . '</h3>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+
+                echo '<div class="col-md-6">';
+                echo '<div class="card shadow-sm">';
+                echo '<div class="card-body text-center">';
+                echo '<p class="text-muted mb-1">Prep Time</p>';
+                echo '<h3 class="text-success">' . htmlspecialchars($recipe['PrepTime']) . ' Minutes</h3>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+
+                echo '<div class="card mt-4 shadow-sm">';
+                echo '<div class="card-header bg-light"><h5 class="mb-0">Instructions</h5></div>';
+                echo '<div class="card-body">';
+                $instructions = htmlspecialchars($recipe['Instructions']);
+                $formattedInstructions = preg_replace('/\.\s*/', '.<br>', $instructions);
+
+                // Output the formatted instructions
+                echo nl2br($formattedInstructions);
+                echo '</div>';
+                echo '</div>';
+
+                if (!empty($recipe['Photo'])) {
+                    echo '<img src="' . htmlspecialchars($recipe['Photo']) . '" alt="Recipe Image" class="img-fluid mb-4 rounded shadow-sm">';
+                }
 
 
 
-            echo '<div class="list-group mb-4">';
-            // Loop through ingredients
-            mysqli_data_seek($ingredientsdisplay, 0);  // Reset the result pointer to the beginning
-            while ($ingredient = mysqli_fetch_assoc($ingredientsdisplay)) {
-                echo '<li class="list-group-item">' . $ingredient['Quantity'] . ' ' . $ingredient['IngredientName'] . '</li>';
+            } else {
+                echo '<div class="alert alert-warning" role="alert">No recipe found.</div>';
             }
-            echo '</div>';
-
-            echo '<h4>Servings: <span class="badge bg-success">' . '   ' . $recipe['Servings'] . '</span>Prep Time: <span class="badge bg-success">' . $recipe['PrepTime'] . ' Minutes</span></h4>';
-
-            echo '<div class="mt-4"><h4>Instructions</h4><p>' . nl2br(str_replace('.', '.<br>', $recipe['Instructions'])) . '</p></div>';
-
+        } else {
+            echo '<div class="alert alert-danger" role="alert">Database query error: ' . mysqli_error($connect) . '</div>';
         }
         ?>
     </main>
