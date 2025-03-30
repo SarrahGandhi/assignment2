@@ -89,7 +89,7 @@
                 echo '</div>';
 
                 if (!empty($recipe['Photo'])) {
-                    echo '<img src="' . htmlspecialchars($recipe['Photo']) . '" alt="Recipe Image" class="img-fluid mb-4 rounded shadow-sm">';
+                    echo '<img src="' . htmlspecialchars($recipe['Photo']) . '" alt="Recipe Image" class="img-fluid mb-4 d-block mx-auto rounded shadow-sm" style="width: 500px; height: auto; object-fit: cover;">';
                 }
 
 
