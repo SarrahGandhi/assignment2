@@ -30,7 +30,7 @@ session_start(); // Start the session at the very top of the file
                 <?php else: ?>
                     <!-- For users not logged in, show Login button -->
                     <li class="nav-item">
-                        <a class="nav-link" href="./admin/index.php">Login</a>
+                        <a class="nav-link" href="./admin/index.php">Admin Panel</a>
                     </li>
                 <?php endif; ?>
 
