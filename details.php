@@ -21,11 +21,11 @@
         include('admin/includes/database.php');
 
         // SQL query to fetch recipe details and its ingredients
-        $query = "SELECT Recipes.RecipeName, Recipes.RecipeID, Recipes.PrepTime, Recipes.Instructions, Recipes.Servings,
-                  Ingredients.IngredientName, Ingredients.Quantity, Recipes.Photo
-                  FROM Recipes
-                  INNER JOIN Ingredients ON Recipes.RecipeID = Ingredients.RecipeID
-                  WHERE Recipes.RecipeID = '$RecipeID'";
+        $query = "SELECT recipes.RecipeName, recipes.RecipeID, recipes.PrepTime, recipes.Instructions, recipes.Servings,
+                  ingredients.IngredientName, ingredients.Quantity, recipes.Photo
+                  FROM recipes
+                  INNER JOIN ingredients ON recipes.recipeID = ingredients.recipeID
+                  WHERE recipes.recipeID = '$RecipeID'";
 
         $result = mysqli_query($connect, $query);
 

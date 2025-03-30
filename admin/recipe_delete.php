@@ -10,11 +10,11 @@ if (isset($_GET['RecipeID'])) {
     $RecipeID = mysqli_real_escape_string($connect, $_GET['RecipeID']);
 
     // Delete ingredients first (foreign key constraint)
-    $deleteIngredientsQuery = "DELETE FROM Ingredients WHERE RecipeID = '$RecipeID'";
+    $deleteIngredientsQuery = "DELETE FROM ingredients WHERE RecipeID = '$RecipeID'";
     mysqli_query($connect, $deleteIngredientsQuery);
     
     // Then delete the recipe
-    $deleteRecipeQuery = "DELETE FROM Recipes WHERE RecipeID = '$RecipeID'";
+    $deleteRecipeQuery = "DELETE FROM recipes WHERE RecipeID = '$RecipeID'";
     $result = mysqli_query($connect, $deleteRecipeQuery);
     
     if ($result) {
