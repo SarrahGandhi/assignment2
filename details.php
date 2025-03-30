@@ -15,6 +15,12 @@
         <?php include("admin/includes/nav.php"); ?>
     </header>
 
+    <div class="container my-4">
+    <div class="d-flex justify-content-start">
+        <a href="index.php" class="btn btn-success">← Back to Recipe List</a>
+    </div>
+    </div>
+
     <main class="container mt-4">
         <?php
         $RecipeID = $_GET['RecipeID'];
@@ -96,7 +102,6 @@
         }
         ?>
     </main>
-
 </body>
 
 </html>
