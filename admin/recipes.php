@@ -43,10 +43,15 @@ if (isset($_SESSION['message'])) {
 <div class="container">
 <?php if (!empty($message)): ?>
   <div class="alert alert-<?php echo $messageType; ?> alert-dismissible fade show" role="alert">
-    <span class="text-success fw-bold"><?php echo $message; ?></span>
+    <?php if ($messageType === 'success'): ?>
+      <span class="text-success fw-bold"><?php echo $message; ?></span>
+    <?php else: ?>
+      <span class="text-danger fw-bold"><?php echo $message; ?></span>
+    <?php endif; ?>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 <?php endif; ?>
+
   <!-- Header Section -->
   <div class="mb-3">
     <h2 class="fw-bold text-dark">Manage Recipes</h2>
@@ -72,21 +77,19 @@ if (isset($_SESSION['message'])) {
             </p>
             <p class="card-text"><strong>Prep Time:</strong> <?php echo $record['PrepTime']; ?> mins</p>
             <p class="card-text"><strong>Servings:</strong> <?php echo $record['Servings']; ?></p>
-
             <div class="d-flex flex-column mt-auto">
-              <!-- Edit Button -->
-              <a href="recipe_edit.php?RecipeID=<?php echo $record['RecipeID']; ?>"
-                class="btn btn-primary w-100 mb-2">Edit</a>
+                    <!-- Edit Button -->
+                    <a href="recipe_edit.php?RecipeID=<?php echo $record['RecipeID']; ?>" class="btn btn-primary w-100 mb-2">Edit</a>
 
-              <!-- Delete Button triggers modal -->
-              <button type="button" class="btn btn-danger w-100 mb-2" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                data-id="<?php echo $record['RecipeID']; ?>">
-                Delete
-              </button>
+                    <!-- Delete Button triggers modal -->
+                    <button type="button" class="btn btn-danger w-100 mb-2" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                        data-id="<?php echo $record['RecipeID']; ?>">Delete</button>
 
-              <!-- Details Button -->
-              <a href="details.php?RecipeID=<?php echo $record['RecipeID']; ?>" class="btn btn-info w-100">Details</a>
-            </div>
+                    <!-- Details Button -->
+                    <a href="details.php?RecipeID=<?php echo $record['RecipeID']; ?>" class="btn btn-info w-100 mb-2">Details</a>
+                    <!-- Photo Button -->
+                    <a href="recipe_photo.php?id=<?php echo $record['RecipeID']; ?>" class="btn btn-secondary w-100 mb-2">Photo</a>
+                </div>
           </div>
         </div>
       </div>
@@ -114,40 +117,6 @@ if (isset($_SESSION['message'])) {
   </div> <!-- End of pagination -->
 </div> <!-- End of container -->
 
-
-  <div class="row">
-    <?php while ($record = mysqli_fetch_assoc($result)): ?>
-      <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-          <img src="../<?php echo $record['Photo']; ?>" class="card-img-top" alt="Recipe Image"
-            style="height: 200px; object-fit: cover;">
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title"><?php echo htmlentities($record['RecipeName']); ?></h5>
-            <p class="card-text"><strong>Instructions:</strong> <small><?php echo $record['Instructions']; ?></small>
-            </p>
-            <p class="card-text"><strong>Prep Time:</strong> <?php echo $record['PrepTime']; ?> mins</p>
-            <p class="card-text"><strong>Servings:</strong> <?php echo $record['Servings']; ?></p>
-
-            <div class="d-flex flex-column mt-auto">
-              <!-- Edit Button -->
-              <a href="recipe_edit.php?RecipeID=<?php echo $record['RecipeID']; ?>"
-                class="btn btn-primary w-100 mb-2">Edit</a>
-
-              <!-- Delete Button triggers modal -->
-              <button type="button" class="btn btn-danger w-100 mb-2" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                data-id="<?php echo $record['RecipeID']; ?>">
-                Delete
-              </button>
-
-              <!-- Details Button -->
-              <a href="details.php?RecipeID=<?php echo $record['RecipeID']; ?>" class="btn btn-info w-100">Details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    <?php endwhile; ?>
-  </div> <!-- End of row -->
-</div> <!-- End of container -->
 
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">

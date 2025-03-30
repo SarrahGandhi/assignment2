@@ -98,9 +98,9 @@ secure();
 
                             // Output the formatted instructions
                             echo nl2br($formattedInstructions);
-                            if (!empty($recipe['Photo'])) {
-                                echo '<img src="../' . htmlspecialchars($recipe['Photo']) . '" alt="Recipe Image" class="img-fluid mb-4 rounded shadow-sm">';
-                            }
+                            // if (!empty($recipe['Photo'])) {
+                            //     echo '<img src="../' . htmlspecialchars($recipe['Photo']) . '" alt="Recipe Image" class="img-fluid mb-4 rounded shadow-sm">';
+                            // }
                             echo '</div>';
 
                             echo '</div>';

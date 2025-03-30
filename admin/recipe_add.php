@@ -10,27 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $Instructions = $_POST["Instructions"];
   $PrepTime = $_POST["PrepTime"];
   $Servings = $_POST["Servings"];
-  $imagePath = "";
 
-  if (!empty($_FILES["image"]["name"])) {
-    $targetDir = "../uploads/"; // Move up one level to root, then into uploads
-    $fileName = uniqid() . "_" . basename($_FILES["image"]["name"]);
-    $imagePath = $targetDir . $fileName;
 
-    if (!is_dir($targetDir)) {
-      mkdir($targetDir, 0755, true); // Create uploads folder in root if it doesn’t exist
-    }
 
-    if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
-      $_SESSION['message'] = "Error uploading image.";
-      $_SESSION['message_type'] = "danger";
-      header('Location: recipes.php');
-      exit();
-    }
-  }
-
-  $query = "INSERT INTO recipes (RecipeName, Instructions, PrepTime, Servings, Photo) 
-            VALUES ('$RecipeName','$Instructions','$PrepTime','$Servings','$imagePath')";
+  $query = "INSERT INTO recipes (RecipeName, Instructions, PrepTime, Servings) 
+            VALUES ('$RecipeName','$Instructions','$PrepTime','$Servings')";
   $result = mysqli_query($connect, $query);
 
   if ($result) {
@@ -69,7 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 }
 
-// The rest of your HTML code for the form...
 ?>
 
 <!DOCTYPE html>
@@ -119,14 +102,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       <button type="button" class="btn btn-primary mb-3" onclick="addIngredient()">Add Another Ingredient</button>
 
-      <div class="mb-3">
-        <label for="image" class="form-label">Image</label>
-        <input type="file" class="form-control" id="image" name="image">
-      </div>
-
-      <button type="submit" class="btn btn-success">Add Recipe</button>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-success">Add Recipe</button>
+        </div>
     </form>
-  </div>
+
+        <div class="mt-3">
+            <a href="recipes.php" class="btn btn-secondary"><i class="fas fa-arrow-circle-left"></i> Back to Recipes</a>
+        </div>
+    </div>
 
   <script>
     function addIngredient() {
