@@ -16,8 +16,17 @@
     <?php include("admin/includes/nav.php"); ?>
   </header>
 
+  <!-- <?php
+  // Enable error reporting
+  ini_set('display_errors', 1);
+  error_reporting(E_ALL);
+  ?> -->
+
   <?php
   include('admin/includes/database.php');
+  if (!$connect) {
+    die("Database connection failed: " . mysqli_connect_error());
+  }
 
   // Get the current page number
   $page = isset($_GET['page']) ? (int) $_GET['page'] : 1; // Default to page 1 if not set
@@ -25,13 +34,13 @@
   $offset = ($page - 1) * $recipes_per_page; // Calculate the OFFSET for SQL query
   
   // Get the total number of recipes
-  $total_query = "SELECT COUNT(*) as total FROM Recipes";
+  $total_query = "SELECT COUNT(*) as total FROM recipes";
   $total_result = mysqli_query($connect, $total_query);
   $total_row = mysqli_fetch_assoc($total_result);
   $total_recipes = $total_row['total'];
 
   // Get the recipes for the current page
-  $query = "SELECT * FROM Recipes LIMIT $recipes_per_page OFFSET $offset";
+  $query = "SELECT * FROM recipes LIMIT $recipes_per_page OFFSET $offset";
   $result = mysqli_query($connect, $query);
 
   // Display recipes in 3-column grid

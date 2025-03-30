@@ -10,9 +10,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['RecipeID'])) {
   $RecipeID = $_GET['RecipeID'];
 
   // Get recipe details
-  $query = "SELECT Recipes.RecipeName, Recipes.RecipeID, Recipes.PrepTime, Recipes.Instructions, Recipes.Servings, Recipes.Photo
-              FROM Recipes
-              WHERE Recipes.RecipeID = '$RecipeID'";
+  $query = "SELECT recipes.RecipeName, recipes.RecipeID, recipes.PrepTime, recipes.Instructions, recipes.Servings, recipes.Photo
+              FROM recipes
+              WHERE recipes.RecipeID = '$RecipeID'";
 
   $result = mysqli_query($connect, $query);
 
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['RecipeID'])) {
 
     // Get ingredients for the recipe
     $query2 = "SELECT IngredientID, IngredientName, Quantity
-                   FROM Ingredients
+                   FROM ingredients
                    WHERE RecipeID = '$RecipeID'";
     $ingredients = mysqli_query($connect, $query2);
   } else {
@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } 
 
   // Update recipe details
-  $query = "UPDATE Recipes 
+  $query = "UPDATE recipes 
               SET RecipeName = '$RecipeName', 
                   Instructions = '$Instructions', 
                   PrepTime = '$PrepTime', 
@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $Quantity = mysqli_real_escape_string($connect, $ingredient['quantity']);
 
       if (!empty($ingredientID)) {
-        $query2 = "UPDATE Ingredients 
+        $query2 = "UPDATE ingredients 
                        SET IngredientName = '$IngredientName', 
                            Quantity = '$Quantity' 
                        WHERE IngredientID = '$ingredientID' AND RecipeID = '$RecipeID'";
@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $NewIngredientName = mysqli_real_escape_string($connect, $new_ingredient['name']);
           $NewQuantity = mysqli_real_escape_string($connect, $new_ingredient['quantity']);
 
-          $query3 = "INSERT INTO Ingredients (RecipeID, IngredientName, Quantity) 
+          $query3 = "INSERT INTO ingredients (RecipeID, IngredientName, Quantity) 
                         VALUES ('$RecipeID', '$NewIngredientName', '$NewQuantity')";
           mysqli_query($connect, $query3);
         }
@@ -149,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="mb-3">
           <label for="Photo" class="form-label">Upload New Photo</label>
           <input type="file" name="Photo" id="Photo" class="form-control">
-          <small>Current Photo: <a href="<?php echo $recipe['Photo']; ?>" target="_blank">View Photo</a></small>
+          <small>Current Photo: <a href="<?php echo '../'. $recipe['Photo']; ?>" target="_blank">View Photo</a></small>
         </div>
 
         <!-- Instructions -->

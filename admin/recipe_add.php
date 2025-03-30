@@ -3,7 +3,7 @@ include('includes/database.php');
 include('includes/config.php'); // Add this to have access to session functions
 include('includes/functions.php'); // Add this if needed for secure() function
 
-// secure(); // Uncomment if you want to check authentication
+secure(); // Uncomment if you want to check authentication
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $RecipeName = $_POST["RecipeName"];
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
 
-  $query = "INSERT INTO Recipes (RecipeName, Instructions, PrepTime, Servings, Photo) 
+  $query = "INSERT INTO recipes (RecipeName, Instructions, PrepTime, Servings, Photo) 
             VALUES ('$RecipeName','$Instructions','$PrepTime','$Servings','$imagePath')";
   $result = mysqli_query($connect, $query);
 
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $quantity = $_POST['quantity'][$i];
         
         if (!empty($ingredient) && !empty($quantity)) {
-          $ingredientQuery = "INSERT INTO Ingredients (RecipeID, IngredientName, Quantity) 
+          $ingredientQuery = "INSERT INTO ingredients (RecipeID, IngredientName, Quantity) 
                               VALUES ('$recipeID', '$ingredient', '$quantity')";
           mysqli_query($connect, $ingredientQuery);
         }
