@@ -58,16 +58,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if ($result) {
     // Update or delete existing ingredients
-    if (!empty($_POST['ingredients'])) {
-      foreach ($_POST['ingredients'] as $ingredientID => $ingredient) {
+    if (!empty($_POST['Ingredients'])) {
+      foreach ($_POST['Ingredients'] as $IngredientID => $Ingredient) {
         $IngredientName = mysqli_real_escape_string($connect, $ingredient['name']);
         $Quantity = mysqli_real_escape_string($connect, $ingredient['quantity']);
         $delete = isset($ingredient['delete']) && $ingredient['delete'] == '1';
 
-        if (!empty($ingredientID)) {
+        if (!empty($IngredientID)) {
           if ($delete) {
             // Delete the ingredient
-            $query2 = "DELETE FROM ingredients WHERE IngredientID = '$ingredientID' AND RecipeID = '$RecipeID'";
+            $query2 = "DELETE FROM Ingredients WHERE IngredientID = '$IngredientID' AND RecipeID = '$RecipeID'";
             if (!mysqli_query($connect, $query2)) {
               $_SESSION['message'] = "Failed to delete ingredient: " . mysqli_error($connect);
               $_SESSION['message_type'] = "danger";
@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $query2 = "UPDATE ingredients 
                                    SET IngredientName = '$IngredientName', 
                                        Quantity = '$Quantity' 
-                                   WHERE IngredientID = '$ingredientID' AND RecipeID = '$RecipeID'";
+                                   WHERE IngredientID = '$IngredientID' AND RecipeID = '$RecipeID'";
             if (!mysqli_query($connect, $query2)) {
               $_SESSION['message'] = "Failed to update ingredient: " . mysqli_error($connect);
               $_SESSION['message_type'] = "danger";
@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $NewIngredientName = mysqli_real_escape_string($connect, $new_ingredient['name']);
           $NewQuantity = mysqli_real_escape_string($connect, $new_ingredient['quantity']);
 
-          $query3 = "INSERT INTO ingredients (RecipeID, IngredientName, Quantity) 
+          $query3 = "INSERT INTO Ingredients (RecipeID, IngredientName, Quantity) 
                                VALUES ('$RecipeID', '$NewIngredientName', '$NewQuantity')";
           if (!mysqli_query($connect, $query3)) {
             $_SESSION['message'] = "Failed to insert new ingredient: " . mysqli_error($connect);
@@ -117,8 +117,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Fetch recipe and ingredients if $RecipeID is set
 if ($RecipeID !== null) {
-  $query = "SELECT RecipeName, RecipeID, PrepTime, Instructions, Servings, ImagePath
-              FROM recipes
+  $query = "SELECT RecipeName, RecipeID, PrepTime, Instructions, Servings, Photo
+              FROM Recipes
               WHERE RecipeID = '$RecipeID'";
   $result = mysqli_query($connect, $query);
 
@@ -127,7 +127,7 @@ if ($RecipeID !== null) {
 
     // Get ingredients for the recipe
     $query2 = "SELECT IngredientID, IngredientName, Quantity
-                   FROM ingredients
+                   FROM Ingredients
                    WHERE RecipeID = '$RecipeID'";
     $ingredients = mysqli_query($connect, $query2);
   } else {
